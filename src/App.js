@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import {useEffect, useState, Fragment} from "react";
+import axios from "axios";
 
 function App() {
+  let [data, setData] = useState([]);
+  useEffect(() => {
+      axios.get("http://localhost:4000/users").then(response => {
+        setData(response.data);
+      })
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul style={{}}>
+        {
+          data.map((d, i) => {
+            return (
+              <Fragment key={i}>
+                <li>{d.username}</li>
+                <li>{d.password}</li>
+                <li>{d.dob}</li>
+                <br />
+              </Fragment>
+            )
+          })
+        }
+      </ul>
     </div>
   );
 }
